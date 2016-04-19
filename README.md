@@ -9,8 +9,11 @@ Checks the status of a charm-id across the many systems we care about: legacy
 charmstore, charmworld, staging charmstore, and production charmstore.
 
 Usage:
+
 `charmcheck.py charm-id`
+
 Example:
+
 `charmcheck.py "~bac/precise/charmworld"
 
 [jujucharms-status.sh](jujucharms-status.sh)
@@ -19,7 +22,9 @@ Example:
 Checks the status information across many microservices.
 
 Usage:
+
 `jujucharms-status.sh` (checks production)
+
 `jujucharms-status.sh staging` (checks staging)
 
 Requirements:
