@@ -14,7 +14,7 @@ Usage:
 
 Example:
 
-`charmcheck.py "~bac/precise/charmworld"
+`charmcheck.py "~bac/precise/charmworld"`
 
 [jujucharms-status.sh](jujucharms-status.sh)
 --------------------------------------------
