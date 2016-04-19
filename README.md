@@ -22,3 +22,5 @@ Usage:
 `jujucharms-status.sh` (checks production)
 `jujucharms-status.sh staging` (checks staging)
 
+Requirements:
+[httpie](https://pypi.python.org/pypi/httpie)
