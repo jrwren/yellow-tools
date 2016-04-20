@@ -11,15 +11,22 @@ import requests
 import sys
 
 
-CS = 'https://api.{server}jujucharms.com/charmstore/v5/{{charmid}}/meta/id'
+CS = 'https://api.{server}{domain}/charmstore/v5/{{charmid}}/meta/id'
 CW = 'http://manage.jujucharms.com/api/3/charm/{charmid}'
 LEGACY = 'https://store.juju.ubuntu.com/charm-info?charms=cs:{charmid}'
 
 servers = (
-    ('Legacy', LEGACY),
-    ('Charmworld', CW),
-    ('Staging', CS.format(server='staging.')),
-    ('Production', CS.format(server='')),
+    ('Legacy', (LEGACY, )),
+    ('Charmworld', (CW, )),
+    ('GUI MAAS', (
+        CS.format(server='', domain='jujugui.org').replace('https', 'http'),
+        CS.format(server='', domain='jujugui.org').replace('https', 'http').replace('meta/id','meta/extra-info'))),
+    ('Staging', (
+        CS.format(server='staging.', domain='jujucharms.com'),
+        CS.format(server='staging.', domain='jujucharms.com').replace('meta/id','meta/extra-info'))),
+    ('Production', (
+        CS.format(server='', domain='jujucharms.com'),
+        CS.format(server='', domain='jujucharms.com').replace('meta/id','meta/extra-info'))),
 )
 
 def get_response(url):
@@ -37,11 +44,19 @@ def print_banner(name):
     print marker
 
 def main(charmid):
-    for servername, template in servers:
-        url = template.format(charmid=charmid)
-        print_banner(servername)
-        get_response(url)
+    for servername, templates in servers:
+        for template in templates:
+            url = template.format(charmid=charmid)
+            print_banner(servername)
+            try:
+                get_response(url)
+            except requests.exceptions.ConnectionError:
+                print url
+                raise
 
 
 if __name__ == '__main__':
-   main(sys.argv[1])
+   charmid = sys.argv[1]
+   if charmid.startswith('cs:'):
+       charmid = charmid[3:]
+   main(charmid)

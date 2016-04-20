@@ -5,14 +5,22 @@
 # If domain is blank then production is used.
 
 set -eux
+protocol="https"
+prefix=""
 if [[ -z "$@" ]]; then
     domain="jujucharms.com"
+elif [[ $1 == "staging" ]]; then
+    domain="staging.jujucharms.com"
+elif [[ $1 == "guimaas" ]]; then
+    domain="jujugui.org"
+    prefix="www."
+    protocol="http"
 else
-    domain="$1.jujucharms.com"
+    exit
 fi
    
-http https://$domain/_version
-http https://api.$domain/identity/v1/debug/info
-http https://demo.$domain/version
-http https://api.$domain/charmstore/debug/info
-http https://api.$domain/charmstore/v4/debug/status
+http $protocol://$prefix$domain/_version
+http $protocol://api.$domain/identity/v1/debug/info
+http $protocol://demo.$domain/version
+http $protocol://api.$domain/charmstore/debug/info
+http $protocol://api.$domain/charmstore/v5/debug/status
