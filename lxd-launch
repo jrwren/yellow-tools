@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Create a privileged lxd container and bind mount current user's home
+# directory into it. This script assumes that the ubuntu user inside the
+# container and your current user have the same id: this is usually true in the
+# typical one-user development machine. This script automates what described at
+# <https://tribaal.io/mounting-home-in-lxd.html>.
+
+# Save this script in your path, for instance as "lxc-launch-and-bind" and run
+# run it without arguments for usage instructions.
+
+set -e
+
+usage() {
+    cmd=`basename $0`
+    echo -e "Usage:\n  $cmd <image> <name>"
+    echo -e "For instance:\n  $cmd ubuntu-wily mycontainer"
+    exit 1
+}
+
+[[ $# != 2 ]] && usage
+
+image=$1
+name=$2
+
+user=$USER
+files="/etc/passwd /etc/shadow /etc/group /etc/gshadow"
+
+lxc launch $image $name -c security.privileged=true
+for file in `ls $files`; do
+    echo "Configuring $file"
+    lxc exec $name -- sh -c "until grep ubuntu $file > /dev/null; do sleep 0.1; done"
+    lxc exec $name -- sed -i "s/ubuntu/$user/g" $file
+done
+echo "Setting password for user $user@$name"
+lxc exec $name -- passwd $user
+echo "Mounting $HOME inside the container"
+lxc config device add $name home disk source=$HOME path=/home/$user
+
+address=`lxc info $name | grep eth0 | grep -v inet6 | head -1 | awk '{print $3}'`
+echo -e "Use the following to connect:\nssh -A $address"

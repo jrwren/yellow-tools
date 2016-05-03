@@ -20,7 +20,10 @@ else
 fi
    
 http $protocol://$prefix$domain/_version
-http $protocol://api.$domain/identity/v1/debug/info
+http $protocol://api.$domain/identity/debug/info
+http $protocol://api.$domain/identity/debug/status
+http $protocol://api.$domain/jem/debug/info
+http $protocol://api.$domain/jem/debug/status
 http $protocol://demo.$domain/version
 http $protocol://api.$domain/charmstore/debug/info
 http $protocol://api.$domain/charmstore/v5/debug/status
