@@ -29,3 +29,19 @@ Usage:
 
 Requirements:
 [httpie](https://pypi.python.org/pypi/httpie)
+
+
+[lxd-launch](lxd-launch)
+--------------------------------------------
+
+Creates a new lxd instance and binds your host home directory.
+
+Usage:
+
+`lxd-launch <image> <name>`
+
+for example:
+
+`lxd-launch ubuntu:wily wily-test`
+
+Note the script is not idempotent. If an instance has already been created, you can just use the `lxc` tools to start and stop it but you don't need to recreate it.  The home directory remains bound even if you start/stop the instance.
