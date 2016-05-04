@@ -7,7 +7,7 @@
 # <https://tribaal.io/mounting-home-in-lxd.html>.
 
 # Save this script in your path, for instance as "lxc-launch-and-bind" and run
-# run it without arguments for usage instructions.
+# it without arguments for usage instructions.
 
 set -e
 
