@@ -32,7 +32,7 @@ Requirements:
 
 
 [lxd-launch](lxd-launch)
---------------------------------------------
+------------------------
 
 Creates a new lxd instance and binds your host home directory.
 
@@ -44,4 +44,27 @@ for example:
 
 `lxd-launch ubuntu:wily wily-test`
 
-Note the script is not idempotent. If an instance has already been created, you can just use the `lxc` tools to start and stop it but you don't need to recreate it.  The home directory remains bound even if you start/stop the instance.
+Note the script is not idempotent. If an instance has already been created,
+you can just use the `lxc` tools to start and stop it but you don't need to
+recreate it.  The home directory remains bound even if you start/stop the
+instance.
+
+[uitest-runner.sh](uitest-runner.sh)
+------------------------------------
+
+Run uitest with an opininated set of options and shortcuts for the system to
+test.
+
+Usage:
+
+```
+cd $MYGITREPO/juju-uitest
+make
+uitest-runner.sh system [test]
+```
+
+The value for `system` can be 'production' or 'staging'. If it is omitted or
+anything else, then GUIMAAS will be used.
+
+The optional `test` parameter is the name of a single test to run. If blank,
+all tests are run.
