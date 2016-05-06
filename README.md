@@ -68,3 +68,10 @@ anything else, then GUIMAAS will be used.
 
 The optional `test` parameter is the name of a single test to run. If blank,
 all tests are run.
+
+You'll need to create a file `$HOME/.uitest-creds` with:
+
+```
+credentials=LPUSERNAME:LPPASSWORD
+admin=admin:ADMINPASSWORD
+```
