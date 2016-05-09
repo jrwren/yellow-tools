@@ -24,7 +24,7 @@ image=$1
 name=$2
 
 user=$USER
-files="/etc/passwd /etc/shadow /etc/group /etc/gshadow"
+files="/etc/passwd /etc/shadow /etc/group /etc/gshadow /etc/sudoers.d/90-cloud-init-users"
 
 lxc launch $image $name -c security.privileged=true
 for file in `ls $files`; do
